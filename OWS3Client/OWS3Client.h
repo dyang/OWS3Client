@@ -34,6 +34,7 @@
                     bucket:(NSString*)bucket
                        key:(NSString *)key
                        acl:(NSString*)acl
+              cacheControl:(NSString *)cacheControl
                    success:(void (^)(S3PutObjectResponse *responseObject))success
                    failure:(void (^)(NSError *error))failure;
 
@@ -51,6 +52,7 @@
                     bucket:(NSString*)bucket
                        key:(NSString *)key
                        acl:(NSString*)acl
+              cacheControl:(NSString *)cacheControl
                    success:(void (^)(S3PutObjectResponse *responseObject))success
                    failure:(void (^)(NSError *error))failure;
 @end

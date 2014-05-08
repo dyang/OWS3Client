@@ -46,11 +46,12 @@
     [self refreshEndpoint];
 }
 
-- (void) postObjectWithData:(NSData *)data bucket:(NSString *)bucket key:(NSString *)key acl:(NSString *)acl success:(void (^)(S3PutObjectResponse *))success failure:(void (^)(NSError *))failure {
+- (void) postObjectWithData:(NSData *)data bucket:(NSString *)bucket key:(NSString *)key acl:(NSString *)acl cacheControl:(NSString *)cacheControl success:(void (^)(S3PutObjectResponse *))success failure:(void (^)(NSError *))failure {
     dispatch_async(networkQueue, ^{
         // Upload image data.  Remember to set the content type.
         S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:key inBucket:bucket];
         por.data  = data;
+        por.cacheControl = cacheControl;
         
         S3CannedACL *cannedACL = nil;
         if (acl) {
@@ -84,6 +85,7 @@
                     bucket:(NSString*)bucket
                        key:(NSString *)key
                        acl:(NSString*)acl
+              cacheControl:(NSString *)cacheControl
                    success:(void (^)(S3PutObjectResponse *responseObject))success
                    failure:(void (^)(NSError *error))failure {
     dispatch_async(networkQueue, ^{
@@ -98,6 +100,7 @@
             cannedACL = [S3CannedACL publicRead];
         }
         por.cannedACL = cannedACL;
+        por.cacheControl = cacheControl;
         
         // Put the image data into the specified s3 bucket and object.
         S3PutObjectResponse *putObjectResponse = [self.s3 putObject:por];
